@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_menu_account"
+        android:title=""
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/connexionTopMenu"
+                android:icon="@drawable/ic_menu_connexion"
+                android:title="Log in/Sign in"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/deconnexionTopMenu"
+                android:icon="@drawable/ic_menu_deconnexion"
+                android:title="Log out"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/panierTopMenu"
+        android:icon="@drawable/cart"
+        android:title=""
+        app:showAsAction="ifRoom" />
+</menu>

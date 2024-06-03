@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Accueil">
+        <menu>
+            <item
+                android:id="@+id/nav_accueil"
+                android:icon="@drawable/ic_menu_home"
+                android:title="@string/menu_accueil" />
+        </menu>
+    </item>
+    <item android:title="Non alcool">
+        <menu>
+            <item
+                android:id="@+id/nav_sirops"
+                android:icon="@drawable/ic_menu_sirops"
+                android:title="@string/menu_sirops" />
+            <item
+                android:id="@+id/nav_softs"
+                android:icon="@drawable/ic_menu_softs"
+                android:title="@string/menu_softs" />
+        </menu>
+    </item>
+    <item android:title="Alcool">
+        <menu>
+            <item
+                android:id="@+id/nav_bieres"
+                android:icon="@drawable/ic_menu_bieres"
+                android:title="@string/menu_bieres" />
+            <item
+                android:id="@+id/nav_vins"
+                android:icon="@drawable/ic_menu_vins"
+                android:title="@string/menu_vins" />
+            <item
+                android:id="@+id/nav_classiques"
+                android:icon="@drawable/ic_menu_classiques"
+                android:title="@string/menu_classiques" />
+            <item
+                android:id="@+id/nav_extravagants"
+                android:icon="@drawable/ic_menu_extravagants"
+                android:title="@string/menu_extravagants" />
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Gabin\'s bar</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Mais vous pouvez rester ici 😉</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_softs">Softs</string>
+    <string name="menu_sirops">Sirops</string>
+    <string name="menu_bieres">Bières</string>
+    <string name="menu_vins">Vins</string>
+    <string name="menu_classiques">Classiques</string>
+    <string name="menu_extravagants">Extravagants</string>
+    <string name="menu_connexion">Connexion</string>
+    <string name="menu_deconnexion">Déconnexion</string>
+    <string name="chargement">Les données sont en train d\'arriver</string>
+    <string name="message_deconnexion">Vous êtes déconnecté</string>
+    <string name="ajouter_boisson">Ajouter une boisson</string>
+    <string name="supprimer_boisson">Supprimer une boisson</string>
+    <string name="validerPanier">Envoyer la commande</string>
+    <string name="viderPanier">Vider le panier</string>
+    <string name="content_description_panier">Panier</string>
+    <string name="menu_accueil">Accueil</string>
+    <string name="suggestions_du_moment">Afficher les suggestions</string>
+    <string name="bi_re">Bière :\n</string>
+    <string name="sirop">Sirop :\n</string>
+    <string name="classique">Classique :\n</string>
+    <string name="pressions">Pressions :</string>
+    <string name="bouteilles">Bouteilles :</string>
+    <string name="nom_de_la_boisson">Nom de la boisson</string>
+</resources>

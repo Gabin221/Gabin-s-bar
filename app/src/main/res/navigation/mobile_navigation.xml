@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_accueil">
+
+    <fragment
+        android:id="@+id/nav_accueil"
+        android:name="com.example.gabinsbar.ui.home.HomeFragment"
+        android:label="@string/menu_accueil"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_softs"
+        android:name="com.example.gabinsbar.ui.softs.SoftsFragment"
+        android:label="@string/menu_softs"
+        tools:layout="@layout/fragment_softs" />
+
+    <fragment
+        android:id="@+id/nav_sirops"
+        android:name="com.example.gabinsbar.ui.sirops.SiropsFragment"
+        android:label="@string/menu_sirops"
+        tools:layout="@layout/fragment_sirops" />
+
+    <fragment
+        android:id="@+id/nav_bieres"
+        android:name="com.example.gabinsbar.ui.bieres.BieresFragment"
+        android:label="@string/menu_bieres"
+        tools:layout="@layout/fragment_bieres" />
+
+    <fragment
+        android:id="@+id/nav_vins"
+        android:name="com.example.gabinsbar.ui.vins.VinsFragment"
+        android:label="@string/menu_vins"
+        tools:layout="@layout/fragment_vins" />
+
+    <fragment
+        android:id="@+id/nav_classiques"
+        android:name="com.example.gabinsbar.ui.classiques.ClassiquesFragment"
+        android:label="@string/menu_classiques"
+        tools:layout="@layout/fragment_classiques" />
+
+    <fragment
+        android:id="@+id/nav_extravagants"
+        android:name="com.example.gabinsbar.ui.extravagants.ExtravagantsFragment"
+        android:label="@string/menu_extravagants"
+        tools:layout="@layout/fragment_extravagants" />
+
+    <fragment
+        android:id="@+id/nav_connexion"
+        android:name="com.example.gabinsbar.ui.connexion.ConnexionFragment"
+        android:label="@string/menu_connexion"
+        tools:layout="@layout/fragment_connexion" />
+</navigation>
