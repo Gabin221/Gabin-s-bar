@@ -2,7 +2,7 @@
 
 ## IHM de l'application
 
-Etant donné le nombre de pages (9 au total), je ne vais pas mettre des images de toutes les pages. Je vais plutôt vous suggérer d'aller voir l'animation faite sur [**Figma**](https://www.figma.com/proto/vsQE5LXKEbVfaEyX3VnPvR/Untitled?node-id=1-2&t=BFwAuN2I08onTt9e-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A2). 
+Etant donné le nombre de pages (9 au total), je ne vais pas mettre des images de toutes les pages. Je vais plutôt vous suggérer d'aller voir l'animation faite sur [**Figma**](https://www.figma.com/proto/vsQE5LXKEbVfaEyX3VnPvR/Untitled?node-id=1-2&t=BFwAuN2I08onTt9e-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A2). Voici malgré tout un aperçu du résultat:  
 
 ## Faire fonctionner l'application
 
