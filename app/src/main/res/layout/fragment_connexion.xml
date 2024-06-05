@@ -12,16 +12,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonOpenCreateAccount"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/erreurChargement"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Créer un compte"
-            android:layout_marginTop="0dp"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordConfirm"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textColor="#FF0000"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="23sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorSecondary"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="@string/se_connecter" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -34,25 +42,15 @@
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="23sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:text="Se connecter" />
-
             <EditText
                 android:id="@+id/editTextPersonName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
                 android:textSize="20sp"
                 android:inputType="text"
-                android:hint="Pseudo"
+                android:hint="@string/pseudo"
                 android:background="@drawable/input"
                 android:layout_marginHorizontal="30dp"
                 android:paddingLeft="10dp"
@@ -69,9 +67,9 @@
                 android:layout_height="48dp"
                 android:ems="10"
                 android:textSize="20sp"
-                android:hint="Mot de passe"
+                android:hint="@string/mot_de_passe"
                 android:inputType="textPassword"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="90dp"
                 android:background="@drawable/input"
                 android:layout_marginHorizontal="30dp"
                 android:paddingLeft="10dp"
@@ -85,9 +83,9 @@
                 android:id="@+id/buttonLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="170dp"
                 android:layout_marginBottom="10dp"
-                android:text="Connexion"
+                android:text="@string/connexion"
                 android:textColor="@color/white"
                 android:background="@drawable/back"
                 android:layout_gravity="center_horizontal"
@@ -98,12 +96,49 @@
 
         </androidx.cardview.widget.CardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="2dp"
+                android:background="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ou"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="10dp"/>
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="2dp"
+                android:background="@color/black"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="23sp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorSecondary"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="@string/cr_er_un_compte" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/createAccountCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardElevation="10dp"
             app:cardCornerRadius="20dp"
             app:cardBackgroundColor="@color/white"
@@ -111,25 +146,15 @@
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="23sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:text="Créer un compte" />
-
             <EditText
                 android:id="@+id/editTextPseudo"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
                 android:textSize="20sp"
                 android:inputType="text"
-                android:hint="Pseudo"
+                android:hint="@string/cr_er_un_compte"
                 android:background="@drawable/input"
                 android:layout_marginHorizontal="30dp"
                 android:paddingLeft="10dp"
@@ -146,9 +171,9 @@
                 android:layout_height="48dp"
                 android:ems="10"
                 android:textSize="20sp"
-                android:hint="Mot de passe"
+                android:hint="@string/mot_de_passe"
                 android:inputType="textPassword"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="90dp"
                 android:background="@drawable/input"
                 android:layout_marginHorizontal="30dp"
                 android:paddingLeft="10dp"
@@ -164,9 +189,9 @@
                 android:layout_height="48dp"
                 android:ems="10"
                 android:textSize="20sp"
-                android:hint="Confirmer"
+                android:hint="@string/confirmer"
                 android:inputType="textPassword"
-                android:layout_marginTop="220dp"
+                android:layout_marginTop="160dp"
                 android:background="@drawable/input"
                 android:layout_marginHorizontal="30dp"
                 android:paddingLeft="10dp"
@@ -180,9 +205,9 @@
                 android:id="@+id/buttonCreateAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Créer un compte"
+                android:text="@string/cr_er_un_compte"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="300dp"
+                android:layout_marginTop="240dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/back"
                 app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordConfirm"

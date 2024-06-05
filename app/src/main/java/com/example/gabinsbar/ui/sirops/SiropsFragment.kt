@@ -18,15 +18,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SiropsFragment : Fragment() {
 
+    // Variable pour stocker la liaison avec la vue
     private var _binding: FragmentSiropsBinding? = null
 
+    // Accesseur pour obtenir la liaison en garantissant qu'elle n'est pas nulle
     private val binding get() = _binding!!
 
+    // Déclaration du TextView pour afficher les sirops
     lateinit var text_sirops: TextView
 
+    // Déclaration du RecyclerView et de son adaptateur
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter<Article>
-
+    private lateinit var erreurChargement: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,26 +38,36 @@ class SiropsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // Initialisation de la liaison avec la vue
         _binding = FragmentSiropsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // Modification de la couleur de la barre de statut
         val window = requireActivity().window
         window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.colorSecondary)
 
+        // Initialisation du TextView pour afficher les erreurs de chargement
+        erreurChargement = root.findViewById(R.id.erreurChargement)
+
         try {
+            // Initialisation du RecyclerView et de son adaptateur
             recyclerView = root.findViewById(R.id.recyclerView)
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             adapter = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
             recyclerView.adapter = adapter
 
+            // Chargement des sirops depuis Firestore
             chargerSirops()
-        }
-        catch (e: Exception) {
-            text_sirops.text = "Erreur lors de la récupération des données Firestore" + e.message
+        } catch (e: Exception) {
+            // Affichage d'un message d'erreur en cas d'échec
+            erreurChargement.visibility = View.VISIBLE
+            erreurChargement.text = "Erreur lors de la récupération des données Firestore: $e"
         }
 
         return root
     }
 
+    // Fonction pour charger les sirops depuis Firestore
     private fun chargerSirops() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Sirops").collection("Sirops")
@@ -64,22 +78,29 @@ class SiropsFragment : Fragment() {
                     val nom = document.getString("Nom") ?: ""
                     boissons.add(Article(document.id, nom))
                 }
+                // Mise à jour des données de l'adaptateur avec les sirops récupérés
                 adapter.updateData(boissons)
             } else {
-                Toast.makeText(requireContext(), "Aucune boisson trouvée pour le type Sirops", Toast.LENGTH_SHORT).show()
+                // Affichage d'un message si aucun sirop n'est trouvé
+                erreurChargement.visibility = View.VISIBLE
+                erreurChargement.text = "Aucun sirop trouvé"
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Erreur lors du chargement des boissons : $e", Toast.LENGTH_SHORT).show()
+            // Affichage d'un message d'erreur en cas d'échec
+            erreurChargement.visibility = View.VISIBLE
+            erreurChargement.text = "Erreur lors de la récupération des données Firestore: $e"
         }
     }
 
+    // Fonction appelée lorsqu'un article est sélectionné
     private fun onArticleSelected(article: Article) {
         PanierManager.monPanier.add(article.nom)
         Toast.makeText(requireContext(), "${article.nom} ajouté au panier", Toast.LENGTH_SHORT).show()
     }
 
+    // Fonction appelée lors de la destruction de la vue
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null // Libération de la liaison avec la vue pour éviter les fuites de mémoire
     }
 }

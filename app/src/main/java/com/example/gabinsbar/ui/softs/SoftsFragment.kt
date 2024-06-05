@@ -18,42 +18,54 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SoftsFragment : Fragment() {
 
+    // Variable pour stocker le binding du fragment
     private var _binding: FragmentSoftsBinding? = null
 
+    // Propriété pour accéder au binding de manière sécurisée
     private val binding get() = _binding!!
 
+    // Déclaration des variables de vue
     lateinit var text_softs: TextView
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArticleAdapter<Article>
+    private lateinit var erreurChargement: TextView
 
-
+    // Méthode appelée pour créer et initialiser la vue du fragment
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        // Initialisation du binding
         _binding = FragmentSoftsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // Modification de la couleur de la barre de statut
         val window = requireActivity().window
         window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.colorSecondary)
 
+        // Initialisation des vues
+        erreurChargement = root.findViewById(R.id.erreurChargement)
+
         try {
+            // Initialisation du RecyclerView et de son adaptateur
             recyclerView = root.findViewById(R.id.recyclerView)
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             adapter = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
             recyclerView.adapter = adapter
 
+            // Chargement des articles
             chargerSofts()
-        }
-        catch (e: Exception) {
-            text_softs.text = "Erreur lors de la récupération des données Firestore" + e.message
+        } catch (e: Exception) {
+            // Affichage d'un message d'erreur en cas d'échec de chargement des articles
+            erreurChargement.visibility = View.VISIBLE
+            erreurChargement.text = "Erreur lors de la récupération des données Firestore: $e"
         }
 
         return root
     }
 
+    // Méthode pour charger les articles depuis Firestore
     private fun chargerSofts() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Softs").collection("Softs")
@@ -64,22 +76,29 @@ class SoftsFragment : Fragment() {
                     val nom = document.getString("Nom") ?: ""
                     boissons.add(Article(document.id, nom))
                 }
+                // Mise à jour des données de l'adaptateur
                 adapter.updateData(boissons)
             } else {
-                Toast.makeText(requireContext(), "Aucune boisson trouvée pour le type Softs", Toast.LENGTH_SHORT).show()
+                // Affichage d'un message si aucun article n'est trouvé
+                erreurChargement.visibility = View.VISIBLE
+                erreurChargement.text = "Aucun soft trouvé"
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Erreur lors du chargement des boissons : $e", Toast.LENGTH_SHORT).show()
+            // Affichage d'un message d'erreur en cas d'échec de récupération des données
+            erreurChargement.visibility = View.VISIBLE
+            erreurChargement.text = "Erreur lors de la récupération des données Firestore: $e"
         }
     }
 
+    // Méthode appelée lorsqu'un article est sélectionné
     private fun onArticleSelected(article: Article) {
         PanierManager.monPanier.add(article.nom)
         Toast.makeText(requireContext(), "${article.nom} ajouté au panier", Toast.LENGTH_SHORT).show()
     }
 
+    // Méthode appelée lorsque la vue du fragment est détruite
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null // Libération du binding pour éviter les fuites de mémoire
     }
 }

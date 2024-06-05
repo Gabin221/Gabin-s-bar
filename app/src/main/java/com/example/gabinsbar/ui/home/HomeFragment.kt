@@ -1,13 +1,17 @@
+// Déclaration du package
 package com.example.gabinsbar.ui.home
 
+// Importation des classes nécessaires
 import PanierManager.monPanier
 import SessionManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -22,12 +26,14 @@ import com.example.gabinsbar.ui.ArticleAdapter
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 
+// Déclaration de la classe HomeFragment héritant de Fragment
 class HomeFragment : Fragment() {
 
+    // Binding pour accéder aux vues du layout
     private var _binding: FragmentHomeBinding? = null
-
     private val binding get() = _binding!!
 
+    // Déclaration des variables pour les boutons et autres vues
     lateinit var buttonHome2Bieres: ImageButton
     lateinit var buttonHome2Vins: ImageButton
     lateinit var buttonHome2Classiques: ImageButton
@@ -42,18 +48,26 @@ class HomeFragment : Fragment() {
     private lateinit var adapterBiere: ArticleAdapter<Article>
     private lateinit var adapterSirop: ArticleAdapter<Article>
     private lateinit var adapterClassique: ArticleAdapter<Article>
+    private lateinit var erreurChargement: TextView
 
+    // Méthode appelée lors de la création de la vue du fragment
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Initialisation du binding
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // Modification de la couleur de la barre de statut
         val window = requireActivity().window
         window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.colorSecondary)
+
+        // Initialisation de Firebase
         FirebaseApp.initializeApp(requireActivity())
 
+        // Liaison des boutons et des vues à leurs identifiants
         buttonHome2Bieres = root.findViewById(R.id.buttonHome2Bieres)
         buttonHome2Vins = root.findViewById(R.id.buttonHome2Vins)
         buttonHome2Classiques = root.findViewById(R.id.buttonHome2Classiques)
@@ -65,7 +79,9 @@ class HomeFragment : Fragment() {
         suggestionBiere = root.findViewById(R.id.suggestionBiere)
         suggestionSirop = root.findViewById(R.id.suggestionSirop)
         suggestionClassique = root.findViewById(R.id.suggestionClassique)
+        erreurChargement = root.findViewById(R.id.erreurChargement)
 
+        // Configuration des RecyclerViews et des adaptateurs
         suggestionBiere.layoutManager = LinearLayoutManager(requireContext())
         adapterBiere = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
         suggestionBiere.adapter = adapterBiere
@@ -81,18 +97,19 @@ class HomeFragment : Fragment() {
         suggestionClassique.adapter = adapterClassique
         suggestionClassique.background = getResources().getDrawable(R.drawable.input)
 
+        // Gestion du clic sur le bouton des suggestions
         boutonSuggestions.setOnClickListener{
             if(textSuggestions.visibility.equals(View.GONE)) {
                 textSuggestions.visibility = View.VISIBLE
                 if (SessionManager.nbrOuvertures == 0) {
                     SessionManager.nbrOuvertures += 1
                 }
-
             } else {
                 textSuggestions.visibility = View.GONE
             }
         }
 
+        // Chargement des suggestions aléatoires
         chargerBiereAleatoire()
         chargerSiropAleatoire()
         chargerClassiqueAleatoire()
@@ -100,11 +117,13 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    // Méthode appelée lors de la sélection d'un article
     private fun onArticleSelected(article: Article) {
         monPanier.add(article.nom)
         Toast.makeText(requireContext(), "${article.nom} ajouté au panier", Toast.LENGTH_SHORT).show()
     }
 
+    // Méthode pour charger une bière aléatoire depuis Firestore
     private fun chargerBiereAleatoire() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Bières").collection("Bouteilles")
@@ -117,19 +136,23 @@ class HomeFragment : Fragment() {
                     bieres.add(Article(document.id, nom))
                 }
                 if (bieres.isNotEmpty()) {
-                    val randomBiere = mutableListOf<Article>(bieres.random())
+                    val randomBiere = mutableListOf(bieres.random())
                     adapterBiere.updateData(randomBiere)
                 } else {
-                    Toast.makeText(requireContext(), "Aucune bière trouvée", Toast.LENGTH_SHORT).show()
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucune bière trouvée"
                 }
             } else {
-                Toast.makeText(requireContext(), "Aucune bière trouvée", Toast.LENGTH_SHORT).show()
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucune bière trouvée"
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Erreur lors du chargement des bières : $e", Toast.LENGTH_SHORT).show()
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des bières : $e"
         }
     }
 
+    // Méthode pour charger un sirop aléatoire depuis Firestore
     private fun chargerSiropAleatoire() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Sirops").collection("Sirops")
@@ -145,16 +168,20 @@ class HomeFragment : Fragment() {
                     val randomSirop = mutableListOf<Article>(sirops.random())
                     adapterSirop.updateData(randomSirop)
                 } else {
-                    Toast.makeText(requireContext(), "Aucun sirop trouvé", Toast.LENGTH_SHORT).show()
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucun sirop trouvé"
                 }
             } else {
-                Toast.makeText(requireContext(), "Aucun sirop trouvé", Toast.LENGTH_SHORT).show()
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucun sirop trouvé"
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Erreur lors du chargement des sirops : $e", Toast.LENGTH_SHORT).show()
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des sirops : $e"
         }
     }
 
+    // Méthode pour charger une boisson classique aléatoire depuis Firestore
     private fun chargerClassiqueAleatoire() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Classiques").collection("Classiques")
@@ -170,20 +197,24 @@ class HomeFragment : Fragment() {
                     val randomClassique = mutableListOf<Article>(classiques.random())
                     adapterClassique.updateData(randomClassique)
                 } else {
-                    Toast.makeText(requireContext(), "Aucun classique trouvé", Toast.LENGTH_SHORT).show()
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucun classique trouvé"
                 }
             } else {
-                Toast.makeText(requireContext(), "Aucun classique trouvé", Toast.LENGTH_SHORT).show()
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucun classique trouvé"
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(requireContext(), "Erreur lors du chargement des classique : $e", Toast.LENGTH_SHORT).show()
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des classique : $e"
         }
     }
 
-
+    // Méthode appelée après la création de la vue
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Gestion des clics sur les boutons pour naviguer vers les différentes catégories de boissons
         buttonHome2Bieres.setOnClickListener {
             findNavController().popBackStack(R.id.nav_accueil, false)
             findNavController().navigate(R.id.nav_bieres)
@@ -215,6 +246,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // Méthode appelée lors de la destruction de la vue pour nettoyer le binding
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

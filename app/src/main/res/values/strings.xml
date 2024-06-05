@@ -21,7 +21,7 @@
     <string name="validerPanier">Envoyer la commande</string>
     <string name="viderPanier">Vider le panier</string>
     <string name="content_description_panier">Panier</string>
-    <string name="menu_accueil">Accueil</string>
+    <string name="menu_accueil">Gabin\'s bar</string>
     <string name="suggestions_du_moment">Afficher les suggestions</string>
     <string name="bi_re">Bière :\n</string>
     <string name="sirop">Sirop :\n</string>
@@ -29,4 +29,15 @@
     <string name="pressions">Pressions :</string>
     <string name="bouteilles">Bouteilles :</string>
     <string name="nom_de_la_boisson">Nom de la boisson</string>
+    <string name="accueil">Accueil</string>
+    <string name="non_alcoolis">Non alcoolisé</string>
+    <string name="alcoolis">Alcoolisé</string>
+    <string name="cr_er_un_compte">Créer un compte</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="connexion">Connexion</string>
+    <string name="confirmer">Confirmer</string>
+    <string name="ou">OU</string>
+    <string name="erreur_lors_du_chargement_des_bi_res">Erreur lors du chargement des bières</string>
 </resources>

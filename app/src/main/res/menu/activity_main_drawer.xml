@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Accueil">
+    <item android:title="@string/accueil">
         <menu>
             <item
                 android:id="@+id/nav_accueil"
                 android:icon="@drawable/ic_menu_home"
-                android:title="@string/menu_accueil" />
+                android:title="@string/accueil" />
         </menu>
     </item>
-    <item android:title="Non alcool">
+    <item android:title="@string/non_alcoolis">
         <menu>
             <item
                 android:id="@+id/nav_sirops"
@@ -23,7 +23,7 @@
                 android:title="@string/menu_softs" />
         </menu>
     </item>
-    <item android:title="Alcool">
+    <item android:title="@string/alcoolis">
         <menu>
             <item
                 android:id="@+id/nav_bieres"
