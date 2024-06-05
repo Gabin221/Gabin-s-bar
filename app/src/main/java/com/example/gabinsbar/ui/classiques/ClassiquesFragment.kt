@@ -79,7 +79,9 @@ class ClassiquesFragment : Fragment() {
                 val boissons = mutableListOf<Article>()
                 for (document in documents) {
                     val nom = document.getString("Nom") ?: ""
-                    boissons.add(Article(document.id, nom))
+                    val alcool = document.getString("Alcool") ?: ""
+                    val chaine = "${nom} (${alcool}°)"
+                    boissons.add(Article(document.id, chaine))
                 }
                 // Mise à jour des données de l'adaptateur
                 adapter.updateData(boissons)

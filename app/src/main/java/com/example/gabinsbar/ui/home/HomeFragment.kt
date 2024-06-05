@@ -7,9 +7,11 @@ import SessionManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.HorizontalScrollView
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -40,15 +42,24 @@ class HomeFragment : Fragment() {
     lateinit var buttonHome2Extravagants: ImageButton
     lateinit var buttonHome2Sirops: ImageButton
     lateinit var buttonHome2Softs: ImageButton
-    lateinit var textSuggestions: CardView
     lateinit var boutonSuggestions: Button
-    lateinit var suggestionBiere: RecyclerView
-    lateinit var suggestionSirop: RecyclerView
-    lateinit var suggestionClassique: RecyclerView
     private lateinit var adapterBiere: ArticleAdapter<Article>
     private lateinit var adapterSirop: ArticleAdapter<Article>
     private lateinit var adapterClassique: ArticleAdapter<Article>
     private lateinit var erreurChargement: TextView
+    private lateinit var boutonSiropsSuggestion: Button
+    private lateinit var textSiropsSuggestion: TextView
+    private lateinit var boutonSoftsSuggestion: Button
+    private lateinit var textSoftsSuggestion: TextView
+    private lateinit var boutonBieresSuggestion: Button
+    private lateinit var textBieresSuggestion: TextView
+    private lateinit var boutonVinsSuggestion: Button
+    private lateinit var textVinsSuggestion: TextView
+    private lateinit var boutonClassiquesSuggestion: Button
+    private lateinit var textClassiquesSuggestion: TextView
+    private lateinit var boutonExtravagantsSuggestion: Button
+    private lateinit var textExtravagantsSuggestion: TextView
+    private lateinit var suggestionsMenu: HorizontalScrollView
 
     // Méthode appelée lors de la création de la vue du fragment
     override fun onCreateView(
@@ -75,44 +86,113 @@ class HomeFragment : Fragment() {
         buttonHome2Sirops = root.findViewById(R.id.buttonHome2Sirops)
         buttonHome2Softs = root.findViewById(R.id.buttonHome2Softs)
         boutonSuggestions = root.findViewById(R.id.boutonSuggestions)
-        textSuggestions = root.findViewById(R.id.textSuggestions)
-        suggestionBiere = root.findViewById(R.id.suggestionBiere)
-        suggestionSirop = root.findViewById(R.id.suggestionSirop)
-        suggestionClassique = root.findViewById(R.id.suggestionClassique)
         erreurChargement = root.findViewById(R.id.erreurChargement)
-
-        // Configuration des RecyclerViews et des adaptateurs
-        suggestionBiere.layoutManager = LinearLayoutManager(requireContext())
-        adapterBiere = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
-        suggestionBiere.adapter = adapterBiere
-        suggestionBiere.background = getResources().getDrawable(R.drawable.input)
-
-        suggestionSirop.layoutManager = LinearLayoutManager(requireContext())
-        adapterSirop = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
-        suggestionSirop.adapter = adapterSirop
-        suggestionSirop.background = getResources().getDrawable(R.drawable.input)
-
-        suggestionClassique.layoutManager = LinearLayoutManager(requireContext())
-        adapterClassique = ArticleAdapter(emptyList()) { article -> onArticleSelected(article) }
-        suggestionClassique.adapter = adapterClassique
-        suggestionClassique.background = getResources().getDrawable(R.drawable.input)
+        boutonSiropsSuggestion = root.findViewById(R.id.boutonSiropsSuggestion)
+        textSiropsSuggestion = root.findViewById(R.id.textSiropsSuggestion)
+        boutonSoftsSuggestion = root.findViewById(R.id.boutonSoftsSuggestion)
+        textSoftsSuggestion = root.findViewById(R.id.textSoftsSuggestion)
+        boutonBieresSuggestion = root.findViewById(R.id.boutonBieresSuggestion)
+        textBieresSuggestion = root.findViewById(R.id.textBieresSuggestion)
+        boutonVinsSuggestion = root.findViewById(R.id.boutonVinsSuggestion)
+        textVinsSuggestion = root.findViewById(R.id.textVinsSuggestion)
+        boutonClassiquesSuggestion = root.findViewById(R.id.boutonClassiquesSuggestion)
+        textClassiquesSuggestion = root.findViewById(R.id.textClassiquesSuggestion)
+        boutonExtravagantsSuggestion = root.findViewById(R.id.boutonExtravagantsSuggestion)
+        textExtravagantsSuggestion = root.findViewById(R.id.textExtravagantsSuggestion)
+        suggestionsMenu = root.findViewById(R.id.suggestionsMenu)
 
         // Gestion du clic sur le bouton des suggestions
         boutonSuggestions.setOnClickListener{
-            if(textSuggestions.visibility.equals(View.GONE)) {
-                textSuggestions.visibility = View.VISIBLE
+            if(suggestionsMenu.visibility.equals(GONE)) {
+                suggestionsMenu.visibility = VISIBLE
                 if (SessionManager.nbrOuvertures == 0) {
                     SessionManager.nbrOuvertures += 1
                 }
             } else {
-                textSuggestions.visibility = View.GONE
+                suggestionsMenu.visibility = View.GONE
             }
         }
 
         // Chargement des suggestions aléatoires
-        chargerBiereAleatoire()
         chargerSiropAleatoire()
+        chargerSoftAleatoire()
+        chargerBiereAleatoire()
+        chargerVinAleatoire()
         chargerClassiqueAleatoire()
+        chargerExtravagantAleatoire()
+
+        boutonSiropsSuggestion.setOnClickListener {
+            if (textSiropsSuggestion.visibility.equals(VISIBLE)){
+                textSiropsSuggestion.visibility = GONE
+            } else {
+                textSiropsSuggestion.visibility = VISIBLE
+            }
+            textSoftsSuggestion.visibility = GONE
+            textBieresSuggestion.visibility = GONE
+            textVinsSuggestion.visibility = GONE
+            textClassiquesSuggestion.visibility = GONE
+            textExtravagantsSuggestion.visibility = GONE
+        }
+        boutonSoftsSuggestion.setOnClickListener {
+            textSiropsSuggestion.visibility = GONE
+            if (textSoftsSuggestion.visibility.equals(VISIBLE)){
+                textSoftsSuggestion.visibility = GONE
+            } else {
+                textSoftsSuggestion.visibility = VISIBLE
+            }
+            textBieresSuggestion.visibility = GONE
+            textVinsSuggestion.visibility = GONE
+            textClassiquesSuggestion.visibility = GONE
+            textExtravagantsSuggestion.visibility = GONE
+        }
+        boutonBieresSuggestion.setOnClickListener {
+            textSiropsSuggestion.visibility = GONE
+            textSoftsSuggestion.visibility = GONE
+            if (textBieresSuggestion.visibility.equals(VISIBLE)){
+                textBieresSuggestion.visibility = GONE
+            } else {
+                textBieresSuggestion.visibility = VISIBLE
+            }
+            textVinsSuggestion.visibility = GONE
+            textClassiquesSuggestion.visibility = GONE
+            textExtravagantsSuggestion.visibility = GONE
+        }
+        boutonVinsSuggestion.setOnClickListener {
+            textSiropsSuggestion.visibility = GONE
+            textSoftsSuggestion.visibility = GONE
+            textBieresSuggestion.visibility = GONE
+            if (textVinsSuggestion.visibility.equals(VISIBLE)){
+                textVinsSuggestion.visibility = GONE
+            } else {
+                textVinsSuggestion.visibility = VISIBLE
+            }
+            textClassiquesSuggestion.visibility = GONE
+            textExtravagantsSuggestion.visibility = GONE
+        }
+        boutonClassiquesSuggestion.setOnClickListener {
+            textSiropsSuggestion.visibility = GONE
+            textSoftsSuggestion.visibility = GONE
+            textBieresSuggestion.visibility = GONE
+            textVinsSuggestion.visibility = GONE
+            if (textClassiquesSuggestion.visibility.equals(VISIBLE)){
+                textClassiquesSuggestion.visibility = GONE
+            } else {
+                textClassiquesSuggestion.visibility = VISIBLE
+            }
+            textExtravagantsSuggestion.visibility = GONE
+        }
+        boutonExtravagantsSuggestion.setOnClickListener {
+            textSiropsSuggestion.visibility = GONE
+            textSoftsSuggestion.visibility = GONE
+            textBieresSuggestion.visibility = GONE
+            textVinsSuggestion.visibility = GONE
+            textClassiquesSuggestion.visibility = GONE
+            if (textExtravagantsSuggestion.visibility.equals(VISIBLE)){
+                textExtravagantsSuggestion.visibility = GONE
+            } else {
+                textExtravagantsSuggestion.visibility = VISIBLE
+            }
+        }
 
         return root
     }
@@ -123,35 +203,6 @@ class HomeFragment : Fragment() {
         Toast.makeText(requireContext(), "${article.nom} ajouté au panier", Toast.LENGTH_SHORT).show()
     }
 
-    // Méthode pour charger une bière aléatoire depuis Firestore
-    private fun chargerBiereAleatoire() {
-        val db = FirebaseFirestore.getInstance()
-        val collection = db.collection("boissons").document("Bières").collection("Bouteilles")
-
-        collection.get().addOnSuccessListener { documents ->
-            if (!documents.isEmpty) {
-                val bieres = mutableListOf<Article>()
-                for (document in documents) {
-                    val nom = document.getString("Nom") ?: ""
-                    bieres.add(Article(document.id, nom))
-                }
-                if (bieres.isNotEmpty()) {
-                    val randomBiere = mutableListOf(bieres.random())
-                    adapterBiere.updateData(randomBiere)
-                } else {
-                    erreurChargement.visibility = VISIBLE
-                    erreurChargement.text = "Aucune bière trouvée"
-                }
-            } else {
-                erreurChargement.visibility = VISIBLE
-                erreurChargement.text = "Aucune bière trouvée"
-            }
-        }.addOnFailureListener { e ->
-            erreurChargement.visibility = VISIBLE
-            erreurChargement.text = "Erreur lors du chargement des bières : $e"
-        }
-    }
-
     // Méthode pour charger un sirop aléatoire depuis Firestore
     private fun chargerSiropAleatoire() {
         val db = FirebaseFirestore.getInstance()
@@ -159,14 +210,14 @@ class HomeFragment : Fragment() {
 
         collection.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty) {
-                val sirops = mutableListOf<Article>()
+                val nomSirop = mutableListOf<String>()
                 for (document in documents) {
                     val nom = document.getString("Nom") ?: ""
-                    sirops.add(Article(document.id, nom))
+                    nomSirop.add(nom)
                 }
-                if (sirops.isNotEmpty()) {
-                    val randomSirop = mutableListOf<Article>(sirops.random())
-                    adapterSirop.updateData(randomSirop)
+                if (nomSirop.isNotEmpty()) {
+                    val randomSirop = mutableListOf(nomSirop.random())
+                    textSiropsSuggestion.text = randomSirop[0]
                 } else {
                     erreurChargement.visibility = VISIBLE
                     erreurChargement.text = "Aucun sirop trouvé"
@@ -181,21 +232,114 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // Méthode pour charger une boisson classique aléatoire depuis Firestore
+    // Méthode pour charger un soft aléatoire depuis Firestore
+    private fun chargerSoftAleatoire() {
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("boissons").document("Softs").collection("Softs")
+
+        collection.get().addOnSuccessListener { documents ->
+            if (!documents.isEmpty) {
+                val nomSoft = mutableListOf<String>()
+                for (document in documents) {
+                    val nom = document.getString("Nom") ?: ""
+                    nomSoft.add(nom)
+                }
+                if (nomSoft.isNotEmpty()) {
+                    val randomSoft = mutableListOf(nomSoft.random())
+                    textSoftsSuggestion.text = randomSoft[0]
+                } else {
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucun soft trouvé"
+                }
+            } else {
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucun soft trouvé"
+            }
+        }.addOnFailureListener { e ->
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des softs : $e"
+        }
+    }
+
+    // Méthode pour charger une bière aléatoire depuis Firestore
+    private fun chargerBiereAleatoire() {
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("boissons").document("Bières").collection("Bouteilles")
+
+        collection.get().addOnSuccessListener { documents ->
+            if (!documents.isEmpty) {
+                val nomBiere = mutableListOf<String>()
+                for (document in documents) {
+                    val nom = document.getString("Nom") ?: ""
+                    val alcool = document.getString("Alcool") ?: ""
+                    val chaine = "${nom} (${alcool}°)"
+                    nomBiere.add(chaine)
+                }
+                if (nomBiere.isNotEmpty()) {
+                    val randomBiere = mutableListOf(nomBiere.random())
+                    textBieresSuggestion.text = randomBiere[0]
+                } else {
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucune bière trouvée"
+                }
+            } else {
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucune bière trouvée"
+            }
+        }.addOnFailureListener { e ->
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des bières : $e"
+        }
+    }
+
+    // Méthode pour charger un vin aléatoire depuis Firestore
+    private fun chargerVinAleatoire() {
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("boissons").document("Vins").collection("Vins")
+
+        collection.get().addOnSuccessListener { documents ->
+            if (!documents.isEmpty) {
+                val nomVin = mutableListOf<String>()
+                for (document in documents) {
+                    val nom = document.getString("Nom") ?: ""
+                    val alcool = document.getString("Alcool") ?: ""
+                    val chaine = "${nom} (${alcool}°)"
+                    nomVin.add(chaine)
+                }
+                if (nomVin.isNotEmpty()) {
+                    val randomVin = mutableListOf(nomVin.random())
+                    textVinsSuggestion.text = randomVin[0]
+                } else {
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucun vin trouvée"
+                }
+            } else {
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucun vin trouvée"
+            }
+        }.addOnFailureListener { e ->
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des vins : $e"
+        }
+    }
+
+    // Méthode pour charger un classique aléatoire depuis Firestore
     private fun chargerClassiqueAleatoire() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("boissons").document("Classiques").collection("Classiques")
 
         collection.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty) {
-                val classiques = mutableListOf<Article>()
+                val nomClassique = mutableListOf<String>()
                 for (document in documents) {
                     val nom = document.getString("Nom") ?: ""
-                    classiques.add(Article(document.id, nom))
+                    val alcool = document.getString("Alcool") ?: ""
+                    val chaine = "${nom} (${alcool}°)"
+                    nomClassique.add(chaine)
                 }
-                if (classiques.isNotEmpty()) {
-                    val randomClassique = mutableListOf<Article>(classiques.random())
-                    adapterClassique.updateData(randomClassique)
+                if (nomClassique.isNotEmpty()) {
+                    val randomClassique = mutableListOf(nomClassique.random())
+                    textClassiquesSuggestion.text = randomClassique[0]
                 } else {
                     erreurChargement.visibility = VISIBLE
                     erreurChargement.text = "Aucun classique trouvé"
@@ -206,7 +350,38 @@ class HomeFragment : Fragment() {
             }
         }.addOnFailureListener { e ->
             erreurChargement.visibility = VISIBLE
-            erreurChargement.text = "Erreur lors du chargement des classique : $e"
+            erreurChargement.text = "Erreur lors du chargement des classiques : $e"
+        }
+    }
+
+    // Méthode pour charger un extravagant aléatoire depuis Firestore
+    private fun chargerExtravagantAleatoire() {
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("boissons").document("Extravagants").collection("Extravagants")
+
+        collection.get().addOnSuccessListener { documents ->
+            if (!documents.isEmpty) {
+                val nomExtravagant = mutableListOf<String>()
+                for (document in documents) {
+                    val nom = document.getString("Nom") ?: ""
+                    val alcool = document.getString("Alcool") ?: ""
+                    val chaine = "${nom} (${alcool}°)"
+                    nomExtravagant.add(chaine)
+                }
+                if (nomExtravagant.isNotEmpty()) {
+                    val randomExtravagant = mutableListOf(nomExtravagant.random())
+                    textExtravagantsSuggestion.text = randomExtravagant[0]
+                } else {
+                    erreurChargement.visibility = VISIBLE
+                    erreurChargement.text = "Aucun extravagant trouvé"
+                }
+            } else {
+                erreurChargement.visibility = VISIBLE
+                erreurChargement.text = "Aucun extravagant trouvé"
+            }
+        }.addOnFailureListener { e ->
+            erreurChargement.visibility = VISIBLE
+            erreurChargement.text = "Erreur lors du chargement des extravagants : $e"
         }
     }
 
