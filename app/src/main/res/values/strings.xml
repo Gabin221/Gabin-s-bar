@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gabin\'s bar</string>
+    <string name="app_name">Gab2\'s bar</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Mais vous pouvez rester ici 😉</string>
@@ -21,7 +21,7 @@
     <string name="validerPanier">Envoyer la commande</string>
     <string name="viderPanier">Vider le panier</string>
     <string name="content_description_panier">Panier</string>
-    <string name="menu_accueil">Gabin\'s bar</string>
+    <string name="menu_accueil">Gabdeux\'s bar</string>
     <string name="suggestions_du_moment">Afficher les suggestions</string>
     <string name="bi_re">Bière :\n</string>
     <string name="sirop">Sirop :\n</string>
